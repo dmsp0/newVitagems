@@ -112,8 +112,8 @@ const EmployeeInfoDetailPage = () => {
                     <InputField label="주소" type="text" value={employee.address || '--------'} disabled placeholder="--------" />
                     <RadioGroup
                         label="계정 권한"
-                        options={['관리자', '사원']}
-                        selectedValue={employee.authority === 'admin' ? '관리자' : '사원'}
+                        options={['관리자', '사원', '마스터']}
+                        selectedValue={employee.authority === 'admin' ? '관리자' : employee.authority === 'user' ? '사원' : '마스터'}
                         disabled
                     />
                 </div>

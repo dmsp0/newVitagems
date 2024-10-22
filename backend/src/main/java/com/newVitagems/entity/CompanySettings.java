@@ -1,10 +1,14 @@
 package com.newVitagems.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "company_settings")
 public class CompanySettings {
@@ -34,7 +38,7 @@ public class CompanySettings {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "employee_code", referencedColumnName = "employee_code", nullable = false)
+    @JoinColumn(name = "employee_code", referencedColumnName = "employee_code", nullable = true)
     private Employee employeeCode;  // 저장한 사원의 코드
 
     @PrePersist

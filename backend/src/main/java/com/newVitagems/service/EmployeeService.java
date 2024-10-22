@@ -47,7 +47,12 @@ public class EmployeeService {
         };
 
         // 권한 변환
-        Authority authority = "사원".equals(request.getAuthority()) ? Authority.user : Authority.admin;
+        Authority authority = switch (request.getAuthority()){
+            case "사원" -> Authority.user;
+            case "관리자" -> Authority.admin;
+            case "마스터" -> Authority.master;
+            default -> throw new IllegalArgumentException("Invalid department");
+        };
 
         // 전화번호 중복 확인 후 예외 던지기
         if (employeeRepository.existsByPhoneNum(request.getPhoneNum())) {

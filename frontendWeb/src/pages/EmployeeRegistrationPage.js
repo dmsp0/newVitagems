@@ -149,7 +149,7 @@ const EmployeeRegistration = () => {
         {/* 계정 권한 라디오 버튼 */}
         <RadioGroup
           label="계정 권한"
-          options={['관리자', '사원']}
+          options={['관리자', '사원', '마스터']}
           selectedValue={authority}
           onChange={(e) => setAuthority(e.target.value)}
         />
