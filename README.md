@@ -1,6 +1,6 @@
 # newVitagems
 
-![newVitagems Logo](#) <!-- 로고 이미지 경로를 나중에 추가해주세요 -->
+![newVitagems Logo](./assets/logo.png)
 
 ## 📋 프로젝트 개요
 **newVitagems**는 사원, 관리자, 마스터 사용자가 각자의 역할에 맞게 인사 관리, 출퇴근 내역 조회 및 관리, 사내 공지 확인 등의 기능을 수행할 수 있는 **웹 기반 인사 관리 시스템**입니다. Spring Security와 JWT를 활용해 다양한 권한 및 인증 절차를 구현하고, 사용자의 정보를 안전하게 보호하며 효율적인 관리 기능을 제공합니다.
@@ -51,13 +51,16 @@
 ```
 newVitagems/
 ├── backend/
-│   ├── src/main/java/com/example/newVitagems
+│   ├── src/main/java/com/newVitagems
 │   ├── src/main/resources/
 │   └── build.gradle
-├── frontend/
+├── frontendWeb/
 │   ├── src/
 │   │   ├── components/
+│   │   ├── layouts/
 │   │   ├── pages/
+│   │   ├── router/
+│   │   ├── routes/
 │   │   └── App.js
 │   ├── public/
 │   └── package.json
@@ -68,7 +71,7 @@ newVitagems/
 
 ### 1. 리포지토리 클론
 ```bash
-git clone https://github.com/your-repository/newVitagems.git
+git clone https://github.com/dmsp0/newVitagems.git
 ```
 
 ### 2. 프로젝트 실행
@@ -88,5 +91,3 @@ npm start
 프로젝트와 관련된 문의사항은 [your-email@example.com](mailto:your-email@example.com)으로 연락해주세요.
 
 ---
-
-추후 데이터베이스 설정과 관련된 내용을 유튜브 영상으로 대체할 계획에 맞춰 작성되었습니다.
