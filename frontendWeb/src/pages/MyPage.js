@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import EmployeeInfoForm from '../components/EmployeeInfoForm';
 
-const EmployeeInfoDetailPage = () => {
-    const { employeeCode } = useParams();
-    const userEmployeeCode = localStorage.getItem('employeeCode');
-    const userAuthority = localStorage.getItem('authority');
+const MyPage = () => {
+    const employeeCode = localStorage.getItem('employeeCode');
     const [employee, setEmployee] = useState(null);
     const [isEditable, setIsEditable] = useState(false);
     const [tempPhoto, setTempPhoto] = useState(null);
     const [updatedFields, setUpdatedFields] = useState({});
 
-    const fetchEmployeeDetails = async () => {
-        const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`);
-        if (response.ok) {
-            const data = await response.json();
-            setEmployee(data);
-        }
-    };
-
     useEffect(() => {
+        const fetchEmployeeDetails = async () => {
+            const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`);
+            if (response.ok) {
+                const data = await response.json();
+                setEmployee(data);
+            }
+        };
         fetchEmployeeDetails();
     }, [employeeCode]);
 
-    const handleEditToggle = () => {
-        if (userAuthority === '관리자' || userAuthority === '마스터' || userEmployeeCode === employeeCode) {
-            setIsEditable((prev) => !prev);
-        } else {
-            alert("수정 권한이 없습니다.");
-        }
-    };
+    const handleEditToggle = () => setIsEditable((prev) => !prev);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -69,17 +59,14 @@ const EmployeeInfoDetailPage = () => {
         }
     };
 
-    const handleCancel = () => {
-        setTempPhoto(null);
-        setIsEditable(false);
-    };
+    const handleCancel = () => setIsEditable(false);
 
     return employee && (
         <EmployeeInfoForm 
             employee={employee}
             tempPhoto={tempPhoto}
             isEditable={isEditable}
-            isSelf={userEmployeeCode === employeeCode}
+            isSelf={true}
             onChange={handleChange}
             onPhotoSelection={handlePhotoSelection}
             onSave={handleSave}
@@ -89,4 +76,4 @@ const EmployeeInfoDetailPage = () => {
     );
 };
 
-export default EmployeeInfoDetailPage;
+export default MyPage;

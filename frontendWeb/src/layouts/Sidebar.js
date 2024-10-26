@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import vitagemsLogo from '../assets/img/VITAGEMS_logo-removebg-preview.png';
 
 const Sidebar = ({ authority }) => {
-  console.log('Authority:', authority);  // authority 값 콘솔 출력
+  const employeeCode = localStorage.getItem('employeeCode');
+  
   return (
     <aside className="min-h-screen w-64 bg-vitagems-navy text-white p-6">
       <div className='mb-9'>
@@ -17,29 +18,49 @@ const Sidebar = ({ authority }) => {
         <ul className="space-y-4 mb-8">
           <p className="border-t border-b border-white">내 정보</p>
           <li>
-            <Link to="/myPage" className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
+            <Link               
+              to={{
+                pathname: "/MyPage",
+                state: { employeeCode }
+              }} 
+              className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
               마이페이지
             </Link>
           </li>
           <li>
-            <Link to="/AttendanceView" className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
+            <Link 
+                to={{
+                pathname: "/AttendanceView",
+                state: { employeeCode }
+              }} 
+              className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
               근태 조회
             </Link>
           </li>
           <li>
-            <Link to="/check-in" className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
+            <Link 
+                to={{
+                pathname: "/check-in",
+                state: { employeeCode }
+              }} 
+              className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
               출근하기
             </Link>
           </li>
           <li>
-            <Link to="/check-out" className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
+            <Link 
+                to={{
+                pathname: "/check-out",
+                state: { employeeCode }
+              }}
+              className="block py-2 px-4 rounded hover:bg-white hover:text-vitagems-navy">
               퇴근하기
             </Link>
           </li>
         </ul>
 
         {/* 관리자 전용 메뉴 */}
-        {authority === '관리자'|| '마스터' && (
+        {(authority === '관리자'|| authority ==='마스터') && (
           <ul className="space-y-4 mb-8">
             <p className="border-t border-b border-white">인사관리</p>
             <li>

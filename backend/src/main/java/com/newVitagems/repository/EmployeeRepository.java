@@ -1,7 +1,11 @@
 package com.newVitagems.repository;
 
 import com.newVitagems.entity.Employee;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,4 +22,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     List<Employee> findAll();
     // 해당 사원의 상세 정보를 조회하는메서드
     Employee findDetailInfoByEmployeeCode(String employeeCode);
+    // 사원 프로필 이미지 db 저장
+    @Modifying
+    @Transactional
+    @Query("UPDATE Employee e SET e.employeePhoto = :photoUrl WHERE e.employeeCode = :employeeCode")
+    void updatePhotoUrl(@Param("employeeCode") String employeeCode, @Param("photoUrl") String photoUrl);
 }

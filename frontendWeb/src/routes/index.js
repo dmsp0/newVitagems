@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import Layout from "../layouts/Layout";
 
+
 // Lazy load 페이지 컴포넌트
 const Home = lazy(() => import("../pages/HomePage"));
 const MainPage = lazy(() => import("../pages/MainPage"));
@@ -9,6 +10,7 @@ const EmployeeManagementPage = lazy(() => import("../pages/EmployeeManagementPag
 const EmployeeInfoDetailPage = lazy(() => import("../pages/EmployeeInfoDetailPage"));
 const AttendanceManagementPage = lazy(() => import("../pages/AttendanceManagementPage"));
 const CompanySettingsPage = lazy(() => import("../pages/CompanySettingsPage"));
+const MyPage = lazy(() =>  import("../pages/MyPage"));
 
 const routes = [
   {
@@ -42,6 +44,10 @@ const routes = [
       {
         path: "CompanyAttendanceSetting",
         element: <CompanySettingsPage/>
+      },
+      {
+        path: "MyPage",
+        element: <MyPage/>
       },
       // 추가적인 경로들을 여기에 추가 가능
     ]

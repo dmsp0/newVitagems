@@ -132,7 +132,6 @@ public class EmployeeService {
         String photoUrl = (employee.getEmployeePhoto() != null && !employee.getEmployeePhoto().isEmpty())
                 ? serverUrl + employee.getEmployeePhoto()
                 : serverUrl + defaultPhotoPath;
-
         return new EmployeeDetailInformationResponse(
                 "해당 사원 정보를 성공적으로 가져왔습니다.", // 메시지 필드
                 employee.getEmployeeCode(),
