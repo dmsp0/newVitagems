@@ -39,7 +39,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @PostMapping("/register")
+    @PostMapping("/admin/register")
     public ResponseEntity<EmployeeRegistrationResponse> registerEmployee(@RequestBody EmployeeRegistrationRequest request) {
         EmployeeRegistrationResponse response;
         try {
@@ -56,7 +56,7 @@ public class EmployeeController {
     }
 
     // 모든 사원 정보를 반환하는 API
-    @GetMapping("/all")
+    @GetMapping("/admin/all")
     public ResponseEntity<FindAllEmployeeResponse> getAllEmployees() {
         List<EmployeeInfoDto> employees = employeeService.getAllEmployees();
         String message;

@@ -9,6 +9,6 @@ import lombok.*;
 public class LoginResponse {
     private String message;
     private String employeeName;
-    private String authority;
-    private String employeeCode;
+    private String token;
+    private String authorityDisplayName;
 }

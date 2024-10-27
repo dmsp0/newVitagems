@@ -8,7 +8,7 @@ const AttendanceManagementPage = () => {
     useEffect(() => {
         const fetchAttendance = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/attendance/all');
+                const response = await fetch('http://localhost:8080/api/attendance/admin/all');
                 if (response.ok) {
                     const data = await response.json();
                     setAttendance(data.defaultAttendance || []);

@@ -4,6 +4,7 @@ import com.newVitagems.entity.Employee;
 import com.newVitagems.repository.EmployeeRepository;
 import com.newVitagems.request.LoginRequest;
 import com.newVitagems.response.LoginResponse;
+import com.newVitagems.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public LoginResponse login(LoginRequest loginRequest) {
         // 사원 코드로 사원 존재 여부 확인
@@ -35,24 +39,14 @@ public class AuthService {
             return new LoginResponse("사원코드 또는 비밀번호를 확인하세요.", null, null,null);
         }
 
-        // Authority 값이 enum 타입으로 설정된 경우, 한글로 변환
-        String authorityDisplayName;
-        switch (employee.getAuthority()) {
-            case admin:
-                authorityDisplayName = "관리자";
-                break;
-            case user:
-                authorityDisplayName = "사원";
-                break;
-            case master:
-                authorityDisplayName = "마스터";
-                break;
-            default:
-                authorityDisplayName = "알 수 없는 권한";
-                break;
-        }
+        // 토큰에 저장할 영문 권한 값
+        String authority = employee.getAuthority().name();
 
+        // Authority 값이 enum 타입으로 설정된 경우, 한글로 변환
+        String authorityDisplayName = employee.getAuthority().getDisplayName();
+
+        String token = jwtUtil.generateToken(employee.getEmployeeCode(), authority);
         // 성공 시 메시지 반환
-        return new LoginResponse("로그인 성공!", employee.getEmployeeName(), authorityDisplayName, employee.getEmployeeCode());
+        return new LoginResponse("로그인 성공!", employee.getEmployeeName(), token, authorityDisplayName);
     }
 }

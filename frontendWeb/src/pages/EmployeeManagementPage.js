@@ -19,8 +19,15 @@ const EmployeeManagementPage = () => {
 
     useEffect(() => {
         const fetchEmployees = async () => {
+            const token = localStorage.getItem('token');
             try {
-                const response = await fetch('http://localhost:8080/api/employee/all');
+                const response = await fetch('http://localhost:8080/api/employee/admin/all',{
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  
+                    },
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setEmployees(data.employees || []);

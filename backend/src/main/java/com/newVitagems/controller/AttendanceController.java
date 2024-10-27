@@ -18,7 +18,7 @@ public class AttendanceController {
     @Autowired
     private TotalAttendanceService totalAttendanceService;
 
-    @GetMapping("/all")
+    @GetMapping("/admin/all")
     public ResponseEntity<FindAllDefaultAttendanceResponse> getAllDefaultAttendance() {
         List<TotalDefaultAttendanceDto> defaultAttendances = totalAttendanceService.getAlltotalDefaultAttendance();
         String message;

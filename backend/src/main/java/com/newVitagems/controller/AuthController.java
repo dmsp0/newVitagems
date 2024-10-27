@@ -21,10 +21,6 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         LoginResponse response = authService.login(loginRequest);
 
-//        // 응답 디버깅
-//        System.out.println("AuthController - 로그인 결과: " + response.getMessage());
-//        System.out.println("AuthController - 사원 이름: " + response.getEmployeeName());
-
         if("로그인 성공!".equals(response.getMessage())){
             return ResponseEntity.ok(response);
         } else {

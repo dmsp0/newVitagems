@@ -34,6 +34,10 @@ dependencies {
     implementation 'jakarta.transaction:jakarta.transaction-api:2.0.0' // 트랜잭션 관리
     implementation 'org.apache.commons:commons-io:1.3.2' // 파일 업로드 의존성
 
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
     runtimeOnly 'mysql:mysql-connector-java:8.0.33' // MySQL DB 연결 드라이버
 
     compileOnly 'org.projectlombok:lombok' // 컴파일 시에만 적용

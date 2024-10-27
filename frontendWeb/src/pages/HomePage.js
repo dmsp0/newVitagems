@@ -49,10 +49,11 @@ const Home = () => {
         const data = await response.json();
         if (response.ok) {
           // 로그인 성공
-          const { employeeName, authority, employeeCode } = data;
+          const { employeeName, authorityDisplayName, employeeCode, token } = data;
           alert("Login successful!");
+          localStorage.setItem('token', token);  // 토큰 저장
           localStorage.setItem('userName', employeeName);  // userName을 localStorage에 저장
-          localStorage.setItem('authority', authority);    // authority를 localStorage에 저장
+          localStorage.setItem('authority', authorityDisplayName);    // authority를 localStorage에 저장
           localStorage.setItem('employeeCode', employeeCode);   // employeeCode를 localStorage에 저장
           navigate('/Main');  // 메인 페이지로 이동
           // localStorage.setItem('token', data.token); // 토큰 저장
