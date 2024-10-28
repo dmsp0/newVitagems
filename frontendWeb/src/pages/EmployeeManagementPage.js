@@ -21,7 +21,7 @@ const EmployeeManagementPage = () => {
         const fetchEmployees = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch('http://localhost:8080/api/employee/admin/all',{
+                const response = await fetch('http://localhost:8080/api/admin/employee/all',{
                     method: 'GET',
                     headers:{
                         'Content-Type': 'application/json',

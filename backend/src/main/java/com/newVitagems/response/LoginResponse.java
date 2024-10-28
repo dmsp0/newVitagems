@@ -11,4 +11,5 @@ public class LoginResponse {
     private String employeeName;
     private String token;
     private String authorityDisplayName;
+    private String employeeCode;
 }

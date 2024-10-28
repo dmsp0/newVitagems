@@ -29,14 +29,14 @@ public class AuthService {
 
         // 사원 코드가 존재하지 않는 경우
         if (!optionalEmployee.isPresent()) {
-            return new LoginResponse("존재하지 않는 사원코드입니다.", null, null,null);
+            return new LoginResponse("존재하지 않는 사원코드입니다.", null, null,null,null);
         }
 
         Employee employee = optionalEmployee.get();
 
         // 암호화된 비밀번호 비교
         if (!passwordEncoder.matches(loginRequest.getEmployeePassword(), employee.getEmployeePassword())){
-            return new LoginResponse("사원코드 또는 비밀번호를 확인하세요.", null, null,null);
+            return new LoginResponse("사원코드 또는 비밀번호를 확인하세요.", null, null,null,null);
         }
 
         // 토큰에 저장할 영문 권한 값
@@ -47,6 +47,6 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(employee.getEmployeeCode(), authority);
         // 성공 시 메시지 반환
-        return new LoginResponse("로그인 성공!", employee.getEmployeeName(), token, authorityDisplayName);
+        return new LoginResponse("로그인 성공!", employee.getEmployeeName(), token, authorityDisplayName, employee.getEmployeeCode());
     }
 }

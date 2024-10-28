@@ -54,8 +54,10 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/login", "/").permitAll()
-                        .requestMatchers("/api/employee/admin/*","/api/attendance/admin/*").hasAnyRole("admin", "master")
-                        .requestMatchers("/images/**").permitAll()  // 이미지 경로 접근 허용
+                        .requestMatchers("/api/admin/*").hasAnyRole("admin", "master")
+                        .requestMatchers("/api/master/*").hasAnyRole( "master")
+                        .requestMatchers("/api/employee/*").authenticated()
+                        .requestMatchers("/images/**").permitAll() // 기본 프로필 이미지 접근 허용
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -13,7 +13,14 @@ const CompanySettingsPage = () => {
     useEffect(() => {
         const fetchCompanySettings = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/company-settings');
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8080/api/master/company-settings', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`, 
+                    }
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setCompanySettings(data);  // 데이터가 있으면 설정 값을 저장
@@ -44,10 +51,12 @@ const CompanySettingsPage = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/company-settings', {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:8080/api/master/company-settings', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, 
                 },
                 body: JSON.stringify(updatedSettings),
             });

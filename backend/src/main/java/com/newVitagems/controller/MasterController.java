@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalTime;
 
 @RestController
-@RequestMapping("/api/company-settings")
-public class CompanySettingsController {
+@RequestMapping("/api/master")
+public class MasterController {
 
     @Autowired
     private CompanySettingsService companySettingsService;
@@ -22,7 +22,7 @@ public class CompanySettingsController {
     private EmployeeRepository employeeRepository;
 
     // 회사 설정 정보 조회 (GET 요청)
-    @GetMapping
+    @GetMapping("/company-settings")
     public ResponseEntity<CompanySettings> getCompanySettings() {
         CompanySettings settings = companySettingsService.getCompanySettings();
         if (settings != null) {
@@ -33,7 +33,7 @@ public class CompanySettingsController {
     }
 
     // 회사 설정 정보 수정 (POST 또는 PUT 요청)
-    @PostMapping
+    @PostMapping("/company-settings")
     public ResponseEntity<String> updateCompanySettings(@RequestBody CompanySettingsDto companySettingsDto) {
         // DTO에서 employeeCode 추출
         String employeeCodeString = companySettingsDto.getEmployeeCode();

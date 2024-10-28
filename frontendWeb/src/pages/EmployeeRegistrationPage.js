@@ -48,7 +48,7 @@ const EmployeeRegistration = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/employee/admin/register', {
+      const response = await fetch('http://localhost:8080/api/admin/employee/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -8,7 +8,14 @@ const AttendanceManagementPage = () => {
     useEffect(() => {
         const fetchAttendance = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/attendance/admin/all');
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8080/api/admin/attendance/all',{
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  
+                    },
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setAttendance(data.defaultAttendance || []);

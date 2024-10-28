@@ -10,7 +10,14 @@ const MyPage = () => {
 
     useEffect(() => {
         const fetchEmployeeDetails = async () => {
-            const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`);
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`,{
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+                });
             if (response.ok) {
                 const data = await response.json();
                 setEmployee(data);
@@ -39,19 +46,27 @@ const MyPage = () => {
     };
 
     const handleSave = async () => {
+        const token = localStorage.getItem('token');
         const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, 
+            },
             body: JSON.stringify(updatedFields),
         });
         if (response.ok) {
             if (tempPhoto) {
+                const token = localStorage.getItem('token');
                 const fileInput = document.querySelector('input[type="file"]');
                 const formData = new FormData();
                 formData.append('photo', fileInput.files[0]);
                 await fetch(`http://localhost:8080/api/employee/${employeeCode}/upload-photo`, {
                     method: 'POST',
                     body: formData,
+                    headers:{
+                        'Authorization': `Bearer ${token}`,
+                    }
                 });
             }
             alert('프로필이 업데이트되었습니다.');

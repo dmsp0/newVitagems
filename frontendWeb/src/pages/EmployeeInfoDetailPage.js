@@ -59,8 +59,10 @@ const EmployeeInfoDetailPage = () => {
         const token = localStorage.getItem('token');
         const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, 
+            },
             body: JSON.stringify(updatedFields),
         });
         if (response.ok) {
