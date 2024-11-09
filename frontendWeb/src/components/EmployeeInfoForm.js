@@ -4,15 +4,25 @@ import RadioGroup from '../components/RadioGroup';
 import SelectField from '../components/SelectField';
 
 const EmployeeInfoForm = ({ 
-    employee, 
-    tempPhoto, 
-    isEditable, 
-    isSelf, 
-    onChange, 
-    onPhotoSelection, 
-    onSave, 
-    onCancel, 
-    onEditToggle 
+    employee,
+    tempPhoto,
+    isEditable,
+    isSelf,
+    isEmailEditable,
+    onEmailEditToggle,
+    verificationCode,
+    onEmailEditCancel,
+    enteredCode,
+    setEnteredCode,
+    onChange,
+    onPhotoSelection,
+    onSave,
+    onCancel,
+    onEditToggle,
+    onSendVerificationCode,
+    handleVerifyCode,
+    verificationTimeLeft,
+    isTimerActive
 }) => (
     <div className="max-w-7xl mx-auto p-10 rounded-xl shadow-lg bg-white mt-12 border border-gray-300 flex gap-8">
         <div className="w-1/2 bg-gray-50 p-6 rounded-lg flex flex-col items-center shadow-inner">
@@ -20,7 +30,7 @@ const EmployeeInfoForm = ({
                 <img
                     src={tempPhoto || `${employee.employeePhoto}?t=${new Date().getTime()}` || 'http://localhost:8080/images/default-profile.png'}
                     alt="Profile"
-                    className="w-48 h-48 rounded-full object-cover border-4 border-indigo-100"
+                    className="profile"
                 />
                 {isSelf && isEditable && (
                     <input
@@ -87,6 +97,14 @@ const EmployeeInfoForm = ({
                 disabled={!isEditable || !isSelf}
                 placeholder="계좌번호"
             />
+            {isSelf && !isEmailEditable && (
+                <button
+                    onClick={onEmailEditToggle}
+                    className="smallEditButton"
+                >
+                    비밀번호 재설정
+                </button>
+            )}
         </div>
 
         <div className="w-2/3">
@@ -103,7 +121,55 @@ const EmployeeInfoForm = ({
                     onChange={(e) => onChange({ target: { name: 'gender', value: e.target.value === '남자' ? '남' : '여' } })}
                     disabled
                 />
-                <InputField label="이메일" type="email" name="email" value={employee.email || ''} onChange={onChange} disabled={!isEditable || !isSelf} placeholder="--------" />
+            <div className="flex items-center pl-12">
+                <InputField label="이메일" type="email" name="email" value={employee.email || ''} onChange={onChange} disabled={!isEmailEditable} placeholder="--------" />
+                {isSelf && !isEmailEditable && (
+                        <button
+                            onClick={onEmailEditToggle}
+                            className="smallEditButton ml-10"
+                        >
+                            이메일 수정
+                        </button>
+                )}
+                {isEmailEditable && (
+                    <button
+                    onClick={onEmailEditCancel}
+                    className="ml-2 py-1 px-3 bg-indigo-600 text-white font-semibold rounded ml-10"
+                >
+                    수정 취소
+                </button>
+                )} 
+
+                {isEmailEditable && (
+                    <>
+                        <button
+                            onClick={onSendVerificationCode}
+                            className="ml-2 py-1 px-3 bg-gray-400 text-white font-semibold rounded"
+                        >
+                            인증 코드 발송
+                        </button>
+                        {isTimerActive && verificationTimeLeft !== '만료됨' && (
+                            <p className="ml-4 text-red-600 font-semibold">
+                                남은 시간: {verificationTimeLeft}
+                            </p>
+                        )}
+                    </>
+                )}
+
+                </div>
+
+                {isEmailEditable && (
+                <div className="flex items-center pl-12">
+                    <InputField label="인증 코드" type="text" name="verificationCode" value={enteredCode} onChange={(e) => setEnteredCode(e.target.value)} placeholder="인증 코드 입력" />
+                    <button
+                        onClick={handleVerifyCode}
+                        className="ml-2 py-1 px-3 bg-green-600 text-white font-semibold rounded ml-10"
+                    >
+                    코드 확인
+                    </button>
+                </div>
+                )}
+
                 <InputField label="전화번호" type="text" name="phoneNum" value={employee.phoneNum} onChange={onChange} disabled={!isEditable} placeholder="전화번호" />
                 <InputField label="주소" type="text" name="address" value={employee.address || ''} onChange={onChange} disabled={!isEditable} placeholder="--------" />
                 <RadioGroup
@@ -121,13 +187,13 @@ const EmployeeInfoForm = ({
                     <>
                         <button
                             onClick={onSave}
-                            className="w-32 py-2 mx-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-500"
+                            className="bigButton hover:bg-indigo-500 mx-2 bg-indigo-600"
                         >
                             저장
                         </button>
                         <button
                             onClick={onCancel}
-                            className="w-32 py-2 mx-2 rounded-full bg-gray-400 text-white font-semibold hover:bg-gray-300"
+                            className="bigButton hover:bg-gray-300 mx-2 bg-gray-400"
                         >
                             취소
                         </button>
@@ -135,7 +201,7 @@ const EmployeeInfoForm = ({
                 ) : (
                     <button
                         onClick={onEditToggle}
-                        className="w-32 py-2 rounded-full bg-gray-400 text-white font-semibold hover:bg-gray-300"
+                        className="bigButton hover:bg-gray-300 bg-gray-400"
                     >
                         수정하기
                     </button>

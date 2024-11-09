@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 커스텀 버튼 스타일 정의 */
+.smallEditButton {
+    @apply ml-2 py-1 px-3 bg-gray-400 text-white font-semibold rounded hover:bg-gray-300;
+}
+
+.bigButton {
+    @apply w-32 py-2 rounded-full  text-white font-semibold;
+}
+
+.profile {
+    @apply w-48 h-48 rounded-3xl object-cover border-4 border-blue-100;
+}

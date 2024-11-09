@@ -3,6 +3,7 @@ import './App.css';
 import { RouterProvider } from "react-router-dom";
 import router from './router';
 import { Suspense } from 'react';
+import './styles/tailwind.css';
 
 function App() {
   return (

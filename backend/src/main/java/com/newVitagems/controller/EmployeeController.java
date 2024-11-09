@@ -11,8 +11,10 @@ import com.newVitagems.response.EmployeeDetailInformationResponse;
 import com.newVitagems.response.EmployeeRegistrationResponse;
 
 import com.newVitagems.response.FindAllEmployeeResponse;
+import com.newVitagems.service.EmailVerificationService;
 import com.newVitagems.service.EmployeeService;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmailVerificationService emailVerificationService;
 
 
     @GetMapping("/{employeeCode}")
@@ -167,5 +172,49 @@ public class EmployeeController {
             return ResponseEntity.status(500).body(response);
         }
     }
+
+    // 인증 코드 발송 엔드포인트
+    @PostMapping("/send-code")
+    public ResponseEntity<Map<String, Object>> sendVerificationCode(@RequestBody Map<String, String> request) throws MessagingException {
+        String employeeCode = request.get("employeeCode");
+        String email = request.get("email");
+
+        if (employeeCode == null || email == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "필수 요청 파라미터가 누락되었습니다."));
+        }
+
+        int expirationMinutes = emailVerificationService.sendVerificationCode(employeeCode, email);
+
+        // 응답에 유효 시간 추가
+        return ResponseEntity.ok(Map.of(
+                "message", "인증 코드가 발송되었습니다.",
+                "expirationMinutes", expirationMinutes
+        ));
+    }
+
+
+
+
+    // 인증 코드 확인 엔드포인트
+    @PostMapping("/verify-code")
+    public ResponseEntity<String> verifyCode(@RequestBody Map<String, String> request) {
+        String employeeCode = request.get("employeeCode");
+        String enteredCode = request.get("verificationCode");
+
+        if (emailVerificationService.verifyCodeAndUpdateEmail(employeeCode, enteredCode)) {
+            return ResponseEntity.ok("인증 완료 후 저장되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 코드가 일치하지 않습니다.");
+        }
+    }
+
+    // 이메일 업데이트 엔드포인트
+    @PostMapping("/update-email")
+    public String updateEmail(@RequestParam String employeeCode, @RequestParam String newEmail) {
+        boolean isUpdated = employeeService.updateEmail(employeeCode, newEmail);
+        return isUpdated ? "이메일이 성공적으로 업데이트되었습니다." : "이메일 인증이 완료되지 않았습니다.";
+    }
+
+
 
 }

@@ -1,7 +1,9 @@
 package com.newVitagems.service;
 
+import com.newVitagems.entity.EmailVerification;
 import com.newVitagems.entity.Employee;
 import com.newVitagems.enums.*;
+import com.newVitagems.repository.EmailVerificationRepository;
 import com.newVitagems.repository.EmployeeRepository;
 import com.newVitagems.request.EmployeeRegistrationRequest;
 import com.newVitagems.response.EmployeeDetailInformationResponse;
@@ -17,6 +19,7 @@ import com.newVitagems.dto.EmployeeInfoDto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -149,6 +152,28 @@ public class EmployeeService {
                 photoUrl,
                 employee.getAuthority()
         );
+    }
+
+
+    @Autowired
+    private EmailVerificationRepository verificationRepository;
+
+    // 이메일 업데이트 메서드
+    public boolean updateEmail(String employeeCode, String newEmail) {
+        // 이메일 인증 여부 확인
+        Optional<EmailVerification> optionalVerification = verificationRepository.findByEmailAndIsVerifiedTrue(newEmail);
+
+        if (optionalVerification.isPresent()) {
+            // 인증 완료된 경우에만 업데이트
+            Optional<Employee> optionalEmployee = employeeRepository.findById(employeeCode);
+            if (optionalEmployee.isPresent()) {
+                Employee employee = optionalEmployee.get();
+                employee.setEmail(newEmail);
+                employeeRepository.save(employee);
+                return true;
+            }
+        }
+        return false;
     }
 
 
