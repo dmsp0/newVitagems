@@ -3,7 +3,7 @@ import { FaRedo } from 'react-icons/fa';
 import Table from '../components/Table';
 import SelectField from '../components/SelectField';
 import SearchField from '../components/SearchField';
-import { useNavigate } from 'react-router-dom';
+
 
 const EmployeeManagementPage = () => {
     const [employees, setEmployees] = useState([]);
@@ -11,11 +11,11 @@ const EmployeeManagementPage = () => {
     const [message, setMessage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [employeesPerPage, setEmployeesPerPage] = useState(10);
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [sortOrder] = useState('asc');
     const [departmentFilter, setDepartmentFilter] = useState('');
     const [rankFilter, setRankFilter] = useState('');
     const [searchName, setSearchName] = useState('');
-    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchEmployees = async () => {

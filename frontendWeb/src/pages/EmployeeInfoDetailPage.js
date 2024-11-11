@@ -57,33 +57,32 @@ const EmployeeInfoDetailPage = () => {
 
     const handleSave = async () => {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
-            method: 'PATCH',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, 
-            },
-            body: JSON.stringify(updatedFields),
-        });
-        if (response.ok) {
-            if (tempPhoto) {
-                const token = localStorage.getItem('token');
-                const fileInput = document.querySelector('input[type="file"]');
-                const formData = new FormData();
-                formData.append('photo', fileInput.files[0]);
-                await fetch(`http://localhost:8080/api/employee/${employeeCode}/upload-photo`, {
-                    method: 'POST',
-                    body: formData,
-                    headers:{
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                });
-            }
-            alert('프로필이 업데이트되었습니다.');
-            setIsEditable(false);
-        }
+
+
+    // updatedFields에 변환된 authority 값 추가
+    const updatedData = {
+        ...updatedFields,
     };
+
+        const profileResponse = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedData),
+        });
+    
+        // 2. 프로필 정보가 성공적으로 업데이트된 경우
+        if (profileResponse.ok) {
+            alert('프로필 정보가 수정되었습니다.');
+            setIsEditable(false);
+        }else {
+            const errorMessage = await profileResponse.text();
+            console.error('프로필 수정 실패:', errorMessage);
+            alert('프로필 수정에 실패했습니다.');
+        }
+};
 
     const handleCancel = () => {
         setTempPhoto(null);

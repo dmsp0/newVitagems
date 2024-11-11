@@ -120,19 +120,6 @@ public class EmployeeController {
         }
         if (updates.containsKey("authority")) {
             String authorityValue = (String) updates.get("authority");
-            switch (authorityValue) {
-                case "사원":
-                    employee.setAuthority(Authority.user);
-                    break;
-                case "관리자":
-                    employee.setAuthority(Authority.admin);
-                    break;
-                case "마스터":
-                    employee.setAuthority(Authority.master);
-                    break;
-                default:
-                    throw new IllegalArgumentException("유효하지 않은 권한 값입니다: " + authorityValue);
-            }
         }
 
         // 변경된 내용 저장

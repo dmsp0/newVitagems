@@ -22,7 +22,8 @@ const EmployeeInfoForm = ({
     onSendVerificationCode,
     handleVerifyCode,
     verificationTimeLeft,
-    isTimerActive
+    isTimerActive,
+    handlePasswordReset
 }) => (
     <div className="max-w-7xl mx-auto p-10 rounded-xl shadow-lg bg-white mt-12 border border-gray-300 flex gap-8">
         <div className="w-1/2 bg-gray-50 p-6 rounded-lg flex flex-col items-center shadow-inner">
@@ -47,7 +48,7 @@ const EmployeeInfoForm = ({
                 <SelectField
                     label="부서"
                     name="department"
-                    value={employee.department}
+                    value={employee.department ?? ''}
                     options={[
                         { label: '개발', value: '개발' },
                         { label: '마케팅', value: '마케팅' },
@@ -59,7 +60,7 @@ const EmployeeInfoForm = ({
                 <SelectField
                     label="직급"
                     name="employeeRank"
-                    value={employee.employeeRank}
+                    value={employee.employeeRank ?? ''}
                     options={[
                         { label: '사원', value: '사원' },
                         { label: '대리', value: '대리' },
@@ -75,7 +76,7 @@ const EmployeeInfoForm = ({
             <SelectField
                 label="은행"
                 name="bank"
-                value={employee.bank}
+                value={employee.bank ?? ''}
                 options={[
                     { label: '----', value: '' },
                     { label: 'KB국민', value: 'KB국민' },
@@ -99,7 +100,7 @@ const EmployeeInfoForm = ({
             />
             {isSelf && !isEmailEditable && (
                 <button
-                    onClick={onEmailEditToggle}
+                    onClick={handlePasswordReset}
                     className="smallEditButton"
                 >
                     비밀번호 재설정

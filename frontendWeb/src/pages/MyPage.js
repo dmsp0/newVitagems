@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import EmployeeInfoForm from '../components/EmployeeInfoForm';
 
 const MyPage = () => {
+    const navigate = useNavigate();
     const employeeCode = localStorage.getItem('employeeCode');
     const [employee, setEmployee] = useState(null);
     const [isEditable, setIsEditable] = useState(false);
@@ -13,21 +15,26 @@ const MyPage = () => {
     const [verificationTimeLeft, setVerificationTimeLeft] = useState(0);
     const [isTimerActive, setIsTimerActive] = useState(false);
 
-    useEffect(() => {
-        const fetchEmployeeDetails = async () => {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`,{
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                }
-                });
-            if (response.ok) {
-                const data = await response.json();
-                setEmployee(data);
+    const fetchEmployeeDetails = async () => {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             }
-        };
+        });
+    
+        if (response.ok) {
+            const data = await response.json();
+            setEmployee(data);
+        } else {
+            console.error('프로필 데이터를 가져오는 데 실패했습니다.');
+        }
+    };
+    
+    // useEffect에서 함수 호출
+    useEffect(() => {
         fetchEmployeeDetails();
     }, [employeeCode]);
 
@@ -155,24 +162,61 @@ const MyPage = () => {
     };
 
     const handleSave = async () => {
-        if (!isEmailEditable || (isEmailEditable && enteredCode === verificationCode)) {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
-                method: 'PATCH',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, 
-                },
-                body: JSON.stringify(updatedFields),
-            });
-            if (response.ok) {
-                alert('프로필이 업데이트되었습니다.');
-                setIsEditable(false);
-            }
-        } else {
+        if (isEmailEditable && enteredCode !== verificationCode) {
             alert('이메일 인증이 완료되지 않았습니다.');
+            return;
+        }
+    
+        const token = localStorage.getItem('token');
+    
+        // 1. 프로필 상세 정보 수정 (PATCH 요청)
+        const profileResponse = await fetch(`http://localhost:8080/api/employee/${employeeCode}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedFields),
+        });
+    
+        // 2. 프로필 정보가 성공적으로 업데이트된 경우
+        if (profileResponse.ok) {
+            alert('프로필 정보가 수정되었습니다.');
+            setIsEditable(false);
+    
+            // 3. 새로운 사진이 선택된 경우에만 사진 업로드 (POST 요청)
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput && fileInput.files[0]) {
+                const formData = new FormData();
+                formData.append('photo', fileInput.files[0]);
+    
+                const photoResponse = await fetch(`http://localhost:8080/api/employee/${employeeCode}/upload-photo`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+    
+                if (photoResponse.ok) {
+                    alert('사진이 업로드되었습니다.');
+                    setTempPhoto(null); // 임시 사진 초기화
+                } else {
+                    const errorMessage = await photoResponse.text();
+                    console.error('사진 업로드 실패:', errorMessage);
+                    alert('사진 업로드에 실패했습니다.');
+                }
+            }
+    
+            // 최신 프로필 정보 다시 가져오기
+            fetchEmployeeDetails();
+        } else {
+            const errorMessage = await profileResponse.text();
+            console.error('프로필 수정 실패:', errorMessage);
+            alert('프로필 수정에 실패했습니다.');
         }
     };
+    
 
     const handleCancel = () => {
         setIsEditable(false);
@@ -181,6 +225,11 @@ const MyPage = () => {
         setVerificationTimeLeft(0);
         setVerificationCode('');
         setIsTimerActive(false);
+    };
+
+    const handlePasswordReset = () => {
+        // 모달 창을 열기 위해 해당 페이지로 이동
+        navigate('/ResetPassword');
     };
     
 
@@ -195,8 +244,8 @@ const MyPage = () => {
             onPhotoSelection={handlePhotoSelection}
             onSave={handleSave}
             onCancel={handleCancel}
-            onEmailEditCancel={onEmailEditCancel}
             onEditToggle={handleEditToggle}
+            onEmailEditCancel={onEmailEditCancel}
             onEmailEditToggle={onEmailEditToggle}
             onSendVerificationCode={onSendVerificationCode}
             verificationCode={verificationCode}
@@ -205,6 +254,7 @@ const MyPage = () => {
             handleVerifyCode={handleVerifyCode}
             verificationTimeLeft={formatTime(verificationTimeLeft)}  // 남은 시간 프롭으로 전달
             isTimerActive={isTimerActive}
+            onClick={handlePasswordReset}
         />
     );
 };
