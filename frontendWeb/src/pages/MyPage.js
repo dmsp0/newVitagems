@@ -1,9 +1,10 @@
 import React, { useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate 추가
+// import { useNavigate } from 'react-router-dom';
 import EmployeeInfoForm from '../components/EmployeeInfoForm';
+import PasswordResetModal from '../Modals/PasswordResetModal';
 
 const MyPage = () => {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const employeeCode = localStorage.getItem('employeeCode');
     const [employee, setEmployee] = useState(null);
     const [isEditable, setIsEditable] = useState(false);
@@ -14,6 +15,7 @@ const MyPage = () => {
     const [enteredCode, setEnteredCode] = useState('');
     const [verificationTimeLeft, setVerificationTimeLeft] = useState(0);
     const [isTimerActive, setIsTimerActive] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchEmployeeDetails = async () => {
         const token = localStorage.getItem('token');
@@ -227,13 +229,24 @@ const MyPage = () => {
         setIsTimerActive(false);
     };
 
-    const handlePasswordReset = () => {
-        // 모달 창을 열기 위해 해당 페이지로 이동
-        navigate('/ResetPassword');
-    };
+    // const handlePasswordReset = () => {
+    //     // 모달 창을 열기 위해 해당 페이지로 이동
+    //     navigate('/ResetPassword');
+    // };
+
+    const openResetPasswordModal = () => {
+        setIsModalOpen(true);
+        };
+    
+      // 모달 닫기 함수
+    const closeResetPasswordModal = () => {
+        setIsModalOpen(false);
+        };
     
 
-    return employee && (
+    return (
+        <>
+        {employee && (
         <EmployeeInfoForm 
             employee={employee}
             tempPhoto={tempPhoto}
@@ -254,8 +267,17 @@ const MyPage = () => {
             handleVerifyCode={handleVerifyCode}
             verificationTimeLeft={formatTime(verificationTimeLeft)}  // 남은 시간 프롭으로 전달
             isTimerActive={isTimerActive}
-            onClick={handlePasswordReset}
+            //onClick={handlePasswordReset}
+            openResetPasswordModal={openResetPasswordModal}
         />
+        )}
+            {isModalOpen && (
+                <PasswordResetModal 
+                    onClose={closeResetPasswordModal}
+                    employeeCode={employeeCode}    
+                />
+            )}
+    </>
     );
 };
 

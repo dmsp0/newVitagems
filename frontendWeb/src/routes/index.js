@@ -11,7 +11,6 @@ const EmployeeInfoDetailPage = lazy(() => import("../pages/EmployeeInfoDetailPag
 const AttendanceManagementPage = lazy(() => import("../pages/AttendanceManagementPage"));
 const CompanySettingsPage = lazy(() => import("../pages/CompanySettingsPage"));
 const MyPage = lazy(() =>  import("../pages/MyPage"));
-const ResetPasswordPage = lazy(() => import("../pages/ResetPasswordPage"));
 
 const routes = [
   {
@@ -50,10 +49,7 @@ const routes = [
         path: "MyPage",
         element: <MyPage/>
       },
-      {
-        path: "ResetPassword",
-        element: <ResetPasswordPage/>
-      },
+
       // 추가적인 경로들을 여기에 추가 가능
     ]
   }

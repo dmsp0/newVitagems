@@ -102,4 +102,40 @@ public class EmailVerificationService {
         }
         return false;
     }
+
+
+
+    public void sendPasswordChangeNotification(String email, String employeeName) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        // 이메일 제목 및 수신자 설정
+        helper.setTo(email);
+        helper.setSubject("[NEW_VITAGEMS] 비밀번호 변경 알림");
+
+        // HTML 템플릿으로 이메일 내용 구성
+        String htmlContent = """
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+            <h2 style="color: #4F46E5; text-align: center;">비밀번호 변경 알림</h2>
+            <p>안녕하세요, %s님.</p>
+            <p>회원님의 비밀번호가 성공적으로 변경되었습니다.</p>
+            
+            <div style="background-color: #F3F4F6; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0;">
+                <span style="font-size: 18px; font-weight: bold; color: #1D4ED8;">비밀번호 변경이 완료되었습니다.</span>
+            </div>
+            
+            <p>만약 비밀번호를 변경한 적이 없다면 즉시 관리자에게 문의해 주세요.</p>
+            
+            <hr style="margin: 20px 0; border: none; border-top: 1px solid #e0e0e0;">
+            <p style="font-size: 12px; color: #6B7280;">
+                본 메일은 발신 전용입니다. 문의 사항이 있으시면 <a href="mailto:support@newvitagems.com" style="color: #3B82F6;">support@newvitagems.com</a>으로 연락해 주세요.
+            </p>
+        </div>
+        """.formatted(employeeName);
+
+        // HTML 형식으로 메일 전송 설정
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+    }
+
 }

@@ -38,4 +38,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     @Transactional
     @Query("UPDATE Employee e SET e.email = :email WHERE e.employeeCode = :employeeCode")
     void updateEmail(@Param("employeeCode") String employeeCode, @Param("email") String email);
+
+    // 사원코드로 이메일 존재여부 조회 ()
+    Optional<Employee> findByEmployeeCodeAndEmail(String employeeCode, String email);
 }

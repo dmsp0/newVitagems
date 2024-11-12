@@ -23,7 +23,7 @@ const EmployeeInfoForm = ({
     handleVerifyCode,
     verificationTimeLeft,
     isTimerActive,
-    handlePasswordReset
+    openResetPasswordModal
 }) => (
     <div className="max-w-7xl mx-auto p-10 rounded-xl shadow-lg bg-white mt-12 border border-gray-300 flex gap-8">
         <div className="w-1/2 bg-gray-50 p-6 rounded-lg flex flex-col items-center shadow-inner">
@@ -100,7 +100,7 @@ const EmployeeInfoForm = ({
             />
             {isSelf && !isEmailEditable && (
                 <button
-                    onClick={handlePasswordReset}
+                onClick = {openResetPasswordModal}
                     className="smallEditButton"
                 >
                     비밀번호 재설정

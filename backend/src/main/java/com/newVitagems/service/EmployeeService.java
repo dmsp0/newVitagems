@@ -7,6 +7,7 @@ import com.newVitagems.repository.EmailVerificationRepository;
 import com.newVitagems.repository.EmployeeRepository;
 import com.newVitagems.request.EmployeeRegistrationRequest;
 import com.newVitagems.response.EmployeeDetailInformationResponse;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,6 +31,9 @@ public class EmployeeService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailVerificationService emailService;
 
     @Transactional
     public String registerEmployee(EmployeeRegistrationRequest request) throws Exception {
@@ -172,6 +176,35 @@ public class EmployeeService {
                 employeeRepository.save(employee);
                 return true;
             }
+        }
+        return false;
+    }
+
+    // 이메일 존재 확인
+    public boolean verifyEmail(String employeeCode, String email) {
+        Optional<Employee> employee = employeeRepository.findByEmployeeCodeAndEmail(employeeCode, email);
+        return employee.isPresent();
+    }
+
+    @Transactional
+    public boolean resetPassword(String employeeCode, String newPassword) {
+        Optional<Employee> employee = employeeRepository.findExistByEmployeeCode(employeeCode);
+        if (employee.isPresent()) {
+            Employee existingEmployee = employee.get();
+            String encryptedPassword = passwordEncoder.encode(newPassword);
+            existingEmployee.setEmployeePassword(encryptedPassword);
+            employeeRepository.save(existingEmployee);
+
+            try {
+                String email = existingEmployee.getEmail();
+                String employeeName = existingEmployee.getEmployeeName();
+                if (email != null && !email.isEmpty()) {
+                    emailService.sendPasswordChangeNotification(email, employeeName);
+                }
+            } catch (MessagingException e) {
+                System.err.println("비밀번호 변경 알림 이메일 전송 중 오류 발생: " + e.getMessage());
+            }
+            return true;
         }
         return false;
     }

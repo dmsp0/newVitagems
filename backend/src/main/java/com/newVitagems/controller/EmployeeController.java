@@ -7,6 +7,8 @@ import com.newVitagems.enums.Department;
 import com.newVitagems.enums.EmployeeRank;
 import com.newVitagems.repository.EmployeeRepository;
 import com.newVitagems.request.EmployeeRegistrationRequest;
+import com.newVitagems.request.PasswordResetRequest;
+import com.newVitagems.request.ResetPasswordEmailRequest;
 import com.newVitagems.response.EmployeeDetailInformationResponse;
 import com.newVitagems.response.EmployeeRegistrationResponse;
 
@@ -201,6 +203,31 @@ public class EmployeeController {
         boolean isUpdated = employeeService.updateEmail(employeeCode, newEmail);
         return isUpdated ? "이메일이 성공적으로 업데이트되었습니다." : "이메일 인증이 완료되지 않았습니다.";
     }
+
+    // 이메일 확인 API
+    @PostMapping("/verify-email")
+    public ResponseEntity<Map<String, Object>> verifyEmail(@RequestBody ResetPasswordEmailRequest emailRequest) {
+        boolean isValid = employeeService.verifyEmail(emailRequest.getEmployeeCode(), emailRequest.getEmail());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("exists", isValid);
+        response.put("message", isValid ? "이메일이 확인되었습니다." : "이메일이 등록되지 않았습니다.");
+
+        return ResponseEntity.ok(response);
+    }
+
+   // 비밀번호 재설정 API
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest request) {
+        boolean isUpdated = employeeService.resetPassword(request.getEmployeeCode(), request.getNewPassword());
+        if (isUpdated) {
+            return ResponseEntity.ok().body("비밀번호가 성공적으로 변경되었습니다.");
+        } else {
+            return ResponseEntity.status(404).body("사원을 찾을 수 없습니다.");
+        }
+    }
+
+
 
 
 

@@ -65,6 +65,4 @@ public class Employee {
     @Column(name = "authority", nullable = false)
     private Authority authority;
 
-
-
 }
