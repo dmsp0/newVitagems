@@ -60,19 +60,20 @@
 
 ### 구현 화면
 - **홈**
-  (./assets/home.png) 
-  (./assets/home_error.png) 아이디 및 비밀번호 오류 (로그인 실패)
-  (./assets/login_success(admin).png) 아이디 및 비밀번호 데이터 일치 (로그인 성공)
+  ![home](./assets/home.png) 
+  ![home](./assets/home_error.png) 아이디 및 비밀번호 오류 (로그인 실패)
+  ![home](./assets/login_success(admin).png) 아이디 및 비밀번호 데이터 일치 (로그인 성공)
 
 - **메인**
-  (./assets/main(admin).png) 관리자 메인 화면
-  (./assets/main(user).png) 사원 메인 화면
+  ![main](./assets/main(admin).png) 관리자 메인 화면
+  ![main](./assets/main(user).png) 사원 메인 화면
   
 
 - **마이페이지**
-  (./assets/mypage(이신후).png) 마이페이지 (모든 권한 동일)
+  ![mypage](./assets/mypage(이신후).png) 마이페이지 (모든 권한 동일)
 
-  (./assets/employee_info_management.png) 사원관리창 (관리자 & 마스터 동일)
+- **사원관리**
+  ![employee management](./assets/employee_info_management.png) 사원관리창 (관리자 & 마스터 동일)
 
 ## 🛠️ 기술 스택
 - **Frontend**: React, Tailwind CSS
