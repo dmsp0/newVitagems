@@ -1,7 +1,7 @@
 
 # newVitagems
 
-![newVitagems Logo](./assets/logo.png) 
+![newVitagems Logo](./assets/logo_navy.png) 
 '이 로고는 자체 제작되었습니다'
 
 # 📊 프로젝트 진행 상황
