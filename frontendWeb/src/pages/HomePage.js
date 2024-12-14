@@ -85,7 +85,7 @@ const Home = () => {
               id="id"
               value={id}
               onChange={(e) => setId(e.target.value)}
-              className={`px-4  mb-3 py-2 text-white placeholder-transparent bg-transparent border-b focus:outline-none transition-all duration-200 ${
+              className={`px-4  mb-3 py-4 text-white placeholder-transparent bg-transparent border-b focus:outline-none transition-all duration-200 ${
                 idError ? 'border-red-500' : id ? 'border-green-500' : 'border-gray-400'
               }`}
               placeholder="EMPLOYEE CODE"
@@ -93,7 +93,7 @@ const Home = () => {
             <label
               htmlFor="id"
               className={`absolute left-4 top-2 transition-all duration-300 pointer-events-none ${
-                id ? 'text-s -top-8' : 'text-sm'
+                id ? 'text-s -top-5' : 'text-sm'
               } ${idError ? 'text-red-500' : id ? 'text-green-500' : 'text-gray-400'}`}
             >
               EMPLOYEE CODE
@@ -108,7 +108,7 @@ const Home = () => {
               id="pw"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`px-4 py-2 text-white placeholder-transparent bg-transparent border-b focus:outline-none transition-all duration-200 ${
+              className={`px-4 py-4 text-white placeholder-transparent bg-transparent border-b focus:outline-none transition-all duration-200 ${
                 passwordError ? 'border-red-500' : password ? 'border-green-500' : 'border-gray-400'
               }`}
               placeholder="PASSWORD"
@@ -116,7 +116,7 @@ const Home = () => {
             <label
               htmlFor="pw"
               className={`absolute left-4 top-2 transition-all duration-200 pointer-events-none ${
-                password ? 'text-s -top-8' : 'text-sm'
+                password ? 'text-s -top-5' : 'text-sm'
               } ${passwordError ? 'text-red-500' : password ? 'text-green-500' : 'text-gray-400'}`}
             >
               PASSWORD
