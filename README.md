@@ -69,6 +69,9 @@
 |---|
 | ![mypage](./assets/mypage(이신후).png) |
 
+### 이메일 수정
+![update_email](./assets/update_email.gif)
+
 ---
 
 ### 📋 사원 관리
