@@ -68,6 +68,9 @@
 | 마이페이지 (모든 권한 공통) |
 |---|
 | ![mypage](./assets/mypage(이신후).png) |
+|---|
+| ![update_profile](./assets/update_profile.gif) |
+
 
 ### 이메일 수정
 ![update_email](./assets/update_email.gif)
