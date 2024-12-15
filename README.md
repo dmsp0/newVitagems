@@ -65,6 +65,8 @@
   ![home](./assets/login_success(admin).png) 아이디 및 비밀번호 데이터 일치 (로그인 성공)
 
 - **메인**
+  **사이드바 구성이 다름**
+  ![main](./assets/main(master).png) 마스터 메인 화면
   ![main](./assets/main(admin).png) 관리자 메인 화면
   ![main](./assets/main(user).png) 사원 메인 화면
   

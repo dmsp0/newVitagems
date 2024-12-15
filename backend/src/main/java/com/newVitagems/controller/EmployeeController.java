@@ -120,8 +120,22 @@ public class EmployeeController {
         if (updates.containsKey("address")) {
             employee.setAddress((String) updates.get("address"));
         }
+
         if (updates.containsKey("authority")) {
             String authorityValue = (String) updates.get("authority");
+            switch (authorityValue) {
+                case "user":
+                    employee.setAuthority(Authority.user);
+                    break;
+                case "admin":
+                    employee.setAuthority(Authority.admin);
+                    break;
+                case "master":
+                    employee.setAuthority(Authority.master);
+                    break;
+                default:
+                    throw new IllegalArgumentException("유효하지 않은 권한 값입니다: " + authorityValue);
+            }
         }
 
         // 변경된 내용 저장
