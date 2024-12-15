@@ -68,7 +68,7 @@
 | 마이페이지 (모든 권한 공통) |
 |---|
 | ![mypage](./assets/mypage(이신후).png) |
-|---|
+| 프로필 수정 (프로필 이미지, 이름, 전화번호, 은행 정보 가능) |
 | ![update_profile](./assets/update_profile.gif) |
 
 
@@ -81,6 +81,12 @@
 | 사원 관리 화면 (관리자 & 마스터) |
 |---|
 | ![employee_management](./assets/employee_info_management.png) |
+| 사원 등록 | 중복 등록 방지 (전화번호호) |
+| ![employee_register](./assets/employee_register.gif) | ![employee_register](./assets/duplicate_phonenum.png) |
+| 사원 필터 검색 |
+| ![employee_search](./assets/employee_info_filter.gif) |
+| 사원 정보 수정정 |
+| ![employee_info_update](./assets/employee_info_change.gif) |
 
 ---
 
