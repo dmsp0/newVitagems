@@ -55,7 +55,7 @@
 ### 🔑 홈 화면
 | 홈 | 로그인 실패 | 로그인 성공 (관리자) |
 |---|---|---|
-| ![home](./assets/home.png) | ![home_error](./assets/home_error.png) | ![login_success](./assets/login_success(admin).png) |
+| ![home](./assets/home.png) | ![home_error](./assets/home_error.png) | ![login_success](./assets/login_success.png) |
 
 ---
 
@@ -120,5 +120,3 @@ npm start
 ```
 
 ---
-
-자세한 정보는 [여기](https://gptonline.ai/ko/)에서 확인하세요.  

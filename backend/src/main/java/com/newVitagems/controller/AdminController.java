@@ -50,10 +50,10 @@ public class AdminController {
             response = new EmployeeRegistrationResponse("사원 등록 성공", employeeCode);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            response = new EmployeeRegistrationResponse("사원 등록 실패: " + e.getMessage(), null);
+            response = new EmployeeRegistrationResponse("사원 등록 실패", null);
             return ResponseEntity.badRequest().body(response); // 400 Bad Request
         } catch (Exception e) {
-            response = new EmployeeRegistrationResponse("사원 등록 실패: " + e.getMessage(), null);
+            response = new EmployeeRegistrationResponse("사원 등록 실패 : 이미 등록된 전화번호입니다.", null);
             return ResponseEntity.status(500).body(response); // 500 Internal Server Error
         }
     }
