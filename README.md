@@ -85,7 +85,7 @@
 | ![employee_register](./assets/employee_register.gif) | ![employee_register](./assets/duplicate_phonenum.png) |
 | 사원 필터 검색 |
 | ![employee_search](./assets/employee_info_filter.gif) |
-| 사원 정보 수정정 |
+| 사원 정보 수정 |
 | ![employee_info_update](./assets/employee_info_change.gif) |
 
 ---
